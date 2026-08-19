@@ -1,4 +1,5 @@
 import flet as ft
+import asyncio
 
 def main(page: ft.Page):
     page.title = "Página de Cadastro"
@@ -13,7 +14,7 @@ def main(page: ft.Page):
 
     d_certo = ft.Text("", color="green")
     
-    def validar_cadastro(e):
+    async def validar_cadastro(e):
         if nome.value.strip() == "" or len(nome.value.strip()) < 3:
             nome.error = "O nome precisa ter pelo menos 3 letras."
         else:
@@ -30,6 +31,8 @@ def main(page: ft.Page):
             d_certo.value = f"Cadastro realizado com sucesso, {nome.value}!"
             nome.value = ""
             email.value = ""
+            await asyncio.sleep(3)
+            d_certo.value = ""
         nome.update()
         email.update()
         d_certo.update()
