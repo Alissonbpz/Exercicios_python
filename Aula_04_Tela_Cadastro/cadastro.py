@@ -54,6 +54,32 @@ def main(page: ft.Page):
         focused_border_color = "blue900"
     )
 
+    senha = ft.TextField(
+        label="Senha: ", 
+        color="yellow",
+        label_style=ft.TextStyle(font_family="Times new roman"),
+        border_color="white",
+        focused_border_color = "blue900"
+    )
+
+    selec_curso = ft.Dropdown(
+        label="Curso",
+        options=[
+            ft.dropdown.Option("Sistemas de Informação"),
+            ft.dropdown.Option("Ciência da Computação"),
+            ft.dropdown.Option("Engenharia de Software"),
+        ]
+    )
+
+    termos = ft.Checkbox("Termos de aceite")
+
+    linha = ft.Row(
+        controls=[selec_curso, termos],
+        alignment=ft.MainAxisAlignment.CENTER,  # centraliza os dois na linha
+        spacing=20,                              # espaço entre eles
+    )
+
+
     botao_cadastrar = ft.Button("CADASTRAR", on_click=cadastrar, style= ft.ButtonStyle(
         shape = ft.RoundedRectangleBorder(radius=3),
         bgcolor={
@@ -63,6 +89,6 @@ def main(page: ft.Page):
         color= "White"
     ))
 
-    page.add(titulo, nome, email, txt_confirmacao, botao_cadastrar)
+    page.add(titulo, nome, email, senha, linha, txt_confirmacao, botao_cadastrar)
 
 ft.run(main)
