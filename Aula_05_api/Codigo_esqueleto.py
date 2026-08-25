@@ -15,7 +15,9 @@ def main(page: ft.Page):
     def remover_tarefa(card_alvo):
         # 1. Remover 'card_alvo' da lista 'lista_view.controls'
         # 2. Atualizar a página com page.update()
-        pass
+        if card_alvo in lista_view.controls:
+            lista_view.controls.remove(card_alvo)
+            page.update()
 
     # TODO 2: Implementar a criação e inserção dinâmica
     def adicionar_tarefa(e):
@@ -24,7 +26,13 @@ def main(page: ft.Page):
         # 1. Validar se 'texto' está vazio:
         #    - Se vazio: definir 'msg_erro.value' e atualizar a página.
         #    - Se válido: limpar 'msg_erro.value'.
-
+        if item_input.value == "":
+            msg_erro.value = "Campo obrigatório!"
+            page.update()
+            return
+        else:
+            msg_erro.value = ""
+            page.update()
         # 2. Instanciar um ft.Card contendo um ft.ListTile:
         #    - leading: ft.Icon(ft.Icons.CHECK_CIRCLE_OUTLINE)
         #    - title: ft.Text(texto, weight=ft.FontWeight.BOLD)
@@ -33,11 +41,25 @@ def main(page: ft.Page):
         #          icon_color=ft.Colors.RED_600,
         #          on_click=lambda _: remover_tarefa(novo_card)
         #      )
+        novo_card = ft.Card(
+            content=ft.ListTile(
+                leading=ft.Icon(ft.Icons.CHECK_CIRCLE_OUTLINE),
+                title=ft.Text(texto, weight=ft.FontWeight.BOLD),
+                trailing=ft.IconButton(
+                    icon=ft.Icons.DELETE,
+                    icon_color=ft.Colors.RED_600,
+                    on_click=lambda _: remover_tarefa(novo_card)
+                )
+            )
+        )
 
         # 3. Adicionar 'novo_card' em 'lista_view.controls'
         # 4. Limpar o valor de 'item_input'
         # 5. Atualizar a página com page.update()
-        pass
+        
+        lista_view.controls.append(novo_card)
+        item_input.value = ""
+        page.update()
 
     # Atalho para cadastrar teclando Enter
     item_input.on_submit = adicionar_tarefa
