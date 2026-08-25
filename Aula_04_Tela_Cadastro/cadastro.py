@@ -20,12 +20,36 @@ def main(page: ft.Page):
         else:
             email.error = None
             email.update()
-        if nome.error == None and email.error == None:
+
+        if senha.value == "" or len(senha.value) < 6:
+            senha.error = "A senha precisa ter pelo menos 6 caracteres !!!"
+            senha.update()
+        else:
+            senha.error = None
+            senha.update()
+        if selec_curso.value == None:
+            selec_curso.error_text = "Selecione um curso!!!"
+        else:
+            selec_curso.error_text = None
+            selec_curso.update()
+
+        if not termos.value:
+            termos.error = True
+            termos.update()
+        else:
+            termos.error = None
+            termos.update()
+
+        
+        if nome.error == None and email.error == None and senha.error == None and selec_curso.error_text == None and termos.error == None:
             nome.value = ""
             nome.update()
 
             email.value = ""
             email.update()
+
+            senha.value = ""
+            senha.update()
 
             txt_confirmacao.value = "Cadastro realizado com sucesso!!!"
             txt_confirmacao.update()
@@ -59,7 +83,9 @@ def main(page: ft.Page):
         color="yellow",
         label_style=ft.TextStyle(font_family="Times new roman"),
         border_color="white",
-        focused_border_color = "blue900"
+        focused_border_color = "blue900",
+        password=True,
+        can_reveal_password=True
     )
 
     selec_curso = ft.Dropdown(
@@ -71,15 +97,13 @@ def main(page: ft.Page):
         ]
     )
 
-    termos = ft.Checkbox("Termos de aceite")
+    termos = ft.Checkbox(label="Termos de aceite", label_style=ft.TextStyle(font_family="Times new roman"))
 
     linha = ft.Row(
-        controls=[selec_curso, termos],
-        alignment=ft.MainAxisAlignment.CENTER,  # centraliza os dois na linha
-        spacing=20,                              # espaço entre eles
+    controls=[termos],
+    alignment=ft.MainAxisAlignment.CENTER,   # AQUI é onde entra o alignment
     )
-
-
+    
     botao_cadastrar = ft.Button("CADASTRAR", on_click=cadastrar, style= ft.ButtonStyle(
         shape = ft.RoundedRectangleBorder(radius=3),
         bgcolor={
@@ -89,6 +113,6 @@ def main(page: ft.Page):
         color= "White"
     ))
 
-    page.add(titulo, nome, email, senha, linha, txt_confirmacao, botao_cadastrar)
+    page.add(titulo, nome, email, senha, selec_curso, linha, txt_confirmacao, botao_cadastrar)
 
 ft.run(main)
