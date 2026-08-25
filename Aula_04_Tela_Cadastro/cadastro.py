@@ -1,54 +1,68 @@
 import flet as ft
-
 import asyncio
-
 def main(page: ft.Page):
     page.title = "Cadastro"
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
 
-    msg_sucesso = ft.Text("", color="green", size=20, font_family="open sans")
+    txt_confirmacao = ft.Text("", color="green")
 
     async def cadastrar(e):
         if nome.value == "" or len(nome.value) < 3 :
-            nome.error = "O nome precisa ter pelo menos 3 letras!!!"
+            nome.error = "O nome precisa ter pelo menos 3 letras !!!"
+            nome.update()
         else:
             nome.error = None
-        nome.update()
+            nome.update()
         if email.value == "" or "@" not in email.value:
             email.error = "Digite um email válido com '@'!!!"
+            email.update()
         else:
             email.error = None
-        email.update()
+            email.update()
         if nome.error == None and email.error == None:
-            msg_sucesso.value = "Cadastro realizado com sucesso!!!"
-            msg_sucesso.update()
             nome.value = ""
             nome.update()
+
             email.value = ""
             email.update()
+
+            txt_confirmacao.value = "Cadastro realizado com sucesso!!!"
+            txt_confirmacao.update()
+
             await asyncio.sleep(3)
-            msg_sucesso.value = ""
-            msg_sucesso.update()
 
-    titulo = ft.Text("CADASTRO", size=40, color="gray", weight="bold",font_family="Arial")
+            txt_confirmacao.value = ""
+            txt_confirmacao.update()
+            
 
-    nome = ft.TextField(label="Digite seu nome: ", color="yellow", text_size=12, label_style=ft.TextStyle( color= "white"))
+    titulo = ft.Text("CADASTRO", font_family="comic sans", color="green", size=33, weight="Bold")
 
-    email = ft.TextField(label="Email: ", color="yellow", text_size=12, label_style= ft.TextStyle(color="white"))
-
-    botao = ft.Button(
-        "Cadastrar", color="white",
-        style=ft.ButtonStyle(
-            bgcolor={
-                ft.ControlState.DEFAULT: "blue",
-                ft.ControlState.HOVERED: "blue900",
-            },
-            shape = ft.RoundedRectangleBorder(radius=2),
-            text_style= ft.TextStyle(font_family="Times new roman", size=20)
-        ), on_click= cadastrar
+    nome = ft.TextField(
+        label="Nome: ", 
+        color="yellow",
+        label_style=ft.TextStyle(font_family="Times new roman"),
+        border_color="white",
+        focused_border_color = "blue900"
     )
 
-    page.add(titulo, nome, email, msg_sucesso, botao)
+    email = ft.TextField(
+        label="Email: ", 
+        color="yellow",
+        label_style=ft.TextStyle(font_family="Times new roman"),
+        border_color="white",
+        focused_border_color = "blue900"
+    )
+
+    botao_cadastrar = ft.Button("CADASTRAR", on_click=cadastrar, style= ft.ButtonStyle(
+        shape = ft.RoundedRectangleBorder(radius=3),
+        bgcolor={
+            ft.ControlState.DEFAULT: "Blue", 
+            ft.ControlState.HOVERED: "Dark_Blue" 
+        },
+        color= "White"
+    ))
+
+    page.add(titulo, nome, email, txt_confirmacao, botao_cadastrar)
 
 ft.run(main)
