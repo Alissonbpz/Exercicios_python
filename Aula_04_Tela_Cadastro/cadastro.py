@@ -108,7 +108,7 @@ def main(page: ft.Page):
         shape = ft.RoundedRectangleBorder(radius=3),
         bgcolor={
             ft.ControlState.DEFAULT: "Blue", 
-            ft.ControlState.HOVERED: "Dark_Blue" 
+            ft.ControlState.HOVERED: "yellow" 
         },
         color= "White"
     ))
